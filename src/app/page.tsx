@@ -4,7 +4,7 @@ import Link from 'next/link'
 export default function Home() {
   return (
     <main className="">
-      <p>Hi Amazon</p>
+      {/* <p>Hi Amazon</p> */}
       
     </main>
   )
