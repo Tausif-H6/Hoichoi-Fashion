@@ -20,11 +20,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+      {children}
          {/* Header  */}
          <Header/>
          {/* products */}
          <Product/>
-        {children}
+        
         
        
         

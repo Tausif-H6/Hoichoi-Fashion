@@ -2,7 +2,7 @@
 import { auth } from "@/app/firebase";
 import React, { FormEvent, useState } from "react";
 import { signInWithEmailAndPassword} from "firebase/auth";
-export default function Login(){
+export default function Page(){
   const [error, setError] = useState(false);
   const [email, setEmail] = useState("");
 const [password, setPassword] = useState("");
