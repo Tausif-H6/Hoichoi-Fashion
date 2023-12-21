@@ -20,6 +20,7 @@ export const ProductProvider = ({ children }) => {
       await setDoc(doc(db, "hoichoiDB",uuid()), {
         name: product.name,
         price: product.price,
+        size: product.size,
         description: product.description,
         image: downloadURL,
       });
