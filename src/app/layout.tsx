@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import Header from '@/components/Header'
 import Product from '@/components/product'
-
+import {ProductProvider} from "@/Provider/Context/Product.context"
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,18 +18,19 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
+    <ProductProvider>
     <html lang="en">
       <body>
+
       {children}
          {/* Header  */}
          <Header/>
          {/* products */}
          <Product/>
-        
-        
-       
-        
         </body>
+       
     </html>
+    </ProductProvider>
+    
   )
 }

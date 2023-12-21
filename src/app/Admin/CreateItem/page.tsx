@@ -2,10 +2,11 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { collection, addDoc } from "firebase/firestore"; 
 import { ref, uploadBytesResumable, getDownloadURL, UploadTaskSnapshot } from 'firebase/storage';
 // Import your Firebase Storage instance
 import { db, storage } from '../../firebase';
+import { useProductContext } from "@/Provider/Context/Product.context";
+import toast, { Toaster } from "react-hot-toast";
 interface Item {
   name: string;
   size: string;
@@ -15,7 +16,7 @@ interface Item {
 }
 
 export default function Page() {
-    
+  const { addProductHandler } = useProductContext();
   const [items, setItems] = useState<Item>({
     name: "",
     size: "",
@@ -74,22 +75,13 @@ const uploadFile = async (file: File): Promise<string> => {
   };
   
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e:ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     e.preventDefault();
-  
+
     try {
-      // Upload file to Firebase Storage and get download URL
-      const downloadURL = await uploadFile(items.picture as File);
-  
-      // Add item to Firestore with download URL
-      await addDoc(collection(db, 'hoichoiDB'), {
-        name: items.name,
-        price: items.price,
-        description: items.description,
-        image: downloadURL,
-      });
-  
+      await addProductHandler(items);
       // Reset the form after submission
+      toast.success("Product Added")
       setItems({
         name: '',
         size: '',
@@ -97,16 +89,18 @@ const uploadFile = async (file: File): Promise<string> => {
         description: '',
         picture: null,
       });
-  
-      alert('Image Uploaded');
+
     } catch (error) {
+      toast.error(error.message)
       console.error('Error adding item to Firestore:', error);
     }
   };
   
 
   return (
+    
     <div className="flex min-h-screen flex-col items-center justify-between sm:p-24 p-4">
+      <Toaster/>
       {/* Add product form */}
       <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm">
         <h1 className="text-4xl p-4 text-center">Welcome Tusher</h1>
