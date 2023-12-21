@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, ChangeEvent, FormEvent, useRef } from "react";
+import React, { useState, ChangeEvent, FormEvent, useRef, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -21,7 +21,7 @@ interface Item {
 }
 
 export default function Page() {
-  const { addProductHandler } = useProductContext();
+  const { addProductHandler,getAllProducts } = useProductContext();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [items, setItems] = useState<Item>({
     name: "",

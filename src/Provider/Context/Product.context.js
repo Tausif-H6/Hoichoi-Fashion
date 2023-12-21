@@ -1,9 +1,10 @@
 "use client";
 import { createContext, useContext } from "react";
-import {  setDoc,doc} from "firebase/firestore";
+import {  setDoc,doc, collection} from "firebase/firestore";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { db, storage } from "@/app/firebase";
 import {v4 as uuid} from "uuid"
+import { getDocs } from "firebase/firestore";
 
 export const ProductContext = createContext();
 
@@ -59,8 +60,25 @@ export const ProductProvider = ({ children }) => {
     });
   };
 
+  //get all products
+
+ const getAllProducts = async () => {
+   try {
+     const querySnapshot = await getDocs(collection(db, "hoichoiDB"));
+     const productsData = querySnapshot.docs.map((doc) => ({
+       id: doc.id,
+       ...doc.data(),
+     }));
+     console.log("All products", productsData);
+     return productsData;
+   } catch (error) {
+     console.error("Error getting all products:", error);
+   }
+ };
+
+
   return (
-    <ProductContext.Provider value={{ addProductHandler }}>
+    <ProductContext.Provider value={{ addProductHandler,getAllProducts }}>
       {children}
     </ProductContext.Provider>
   );
