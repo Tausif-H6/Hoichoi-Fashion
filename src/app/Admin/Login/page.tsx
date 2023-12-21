@@ -2,7 +2,10 @@
 import { auth } from "@/app/firebase";
 import React, { FormEvent, useState } from "react";
 import { signInWithEmailAndPassword} from "firebase/auth";
+import { useRouter } from 'next/navigation'
+
 export default function Page(){
+  const router = useRouter()
   const [error, setError] = useState(false);
   const [email, setEmail] = useState("");
 const [password, setPassword] = useState("");
@@ -16,10 +19,7 @@ const [password, setPassword] = useState("");
       .then((userCredential) => {
         // Signed up
         const user = userCredential.user;
-        console.log(email,password);
-        
-        console.log(user);
-        
+        router.push('/Admin/CreateItem')
         // ...
       })
       .catch((error) => {

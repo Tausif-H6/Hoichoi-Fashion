@@ -14,7 +14,7 @@ interface Item {
   picture: File | null;
 }
 
-export default function CreateItem() {
+export default function Page() {
     
   const [items, setItems] = useState<Item>({
     name: "",
