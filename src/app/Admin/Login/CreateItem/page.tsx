@@ -1,15 +1,16 @@
 "use client";
-import React, { useState, ChangeEvent, FormEvent, useRef, useEffect } from "react";
+import React, {
+  useState,
+  ChangeEvent,
+  FormEvent,
+  useRef,
+  useEffect,
+} from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-  UploadTaskSnapshot,
-} from "firebase/storage";
+import { useRouter } from "next/navigation";
 // Import your Firebase Storage instance
-import { db, storage } from "../../firebase";
+import { db, storage } from "../../../firebase";
 import { useProductContext } from "@/Provider/Context/Product.context";
 import toast, { Toaster } from "react-hot-toast";
 interface Item {
@@ -21,7 +22,8 @@ interface Item {
 }
 
 export default function Page() {
-  const { addProductHandler,getAllProducts } = useProductContext();
+  const router = useRouter();
+  const { addProductHandler, getAllProducts } = useProductContext();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [items, setItems] = useState<Item>({
     name: "",
@@ -90,9 +92,14 @@ export default function Page() {
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-between sm:p-24 p-4">
-      <Toaster />
       {/* Add product form */}
       <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm">
+        <button
+          className="h-8 w-20 bg-black text-white rounded"
+          onClick={() => router.push("/")}
+        >
+          Logout
+        </button>
         <h1 className="text-4xl p-4 text-center">Welcome Tusher</h1>
         <div className="bg-red-100 p-4 rounded-lg">
           <form
@@ -134,8 +141,7 @@ export default function Page() {
             {/* ... other input fields ... */}
             <div className="grid w-full max-w-sm items-center gap-1.5">
               <Label htmlFor="picture">
-                Picture{" "}
-                <span className="text-red-600">***</span>
+                Picture <span className="text-red-600">***</span>
               </Label>
               <Input
                 id="picture"
@@ -146,7 +152,7 @@ export default function Page() {
               />
             </div>
             <button
-              className="col-span-3 border text-white bg-slate-950 hover:bg-slate-900 p-3 text-xl"
+              className="col-span-3 border text-white bg-slate-950 hover:bg-slate-900 p-3 text-xl rounded"
               type="submit"
             >
               Submit

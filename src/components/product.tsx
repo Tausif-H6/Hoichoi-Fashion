@@ -3,7 +3,7 @@ import { useProductContext } from "@/Provider/Context/Product.context";
 import React, { useEffect, useState } from "react";
 
 export default function Product() {
-  const {getAllProducts } = useProductContext();
+  const {getAllProducts,isLoading } = useProductContext();
 
   const [products, setProducts] = useState([]);
 
@@ -16,7 +16,7 @@ export default function Product() {
     fetchData();
   }, [getAllProducts]);
   console.log(products);
-  
+ 
   return (
     <div className="pt-2 flex flex-row justify-between flex-wrap gap-5 bg-gray-100 dark:bg-gray-900">
         {/* card starts from here  */}
@@ -34,6 +34,8 @@ export default function Product() {
          <div>
            <p className="text-lg text-black font-semibold">{item.name}</p>
            <p className="text-gray-500 font-medium">{item.description}</p>
+           <p>{item.size}</p>
+           <p>Price :{item.price}</p>
          </div>
          <button className="px-4 py-1 text-sm  border border-purple-300 rounded-full text-purple-700  sm:rounded
          hover:bg-purple-500 hover:text-white 

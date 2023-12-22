@@ -1,26 +1,35 @@
 "use client";
 import { auth } from "@/app/firebase";
 import React, { FormEvent, useState } from "react";
-import { signInWithEmailAndPassword} from "firebase/auth";
-import { useRouter } from 'next/navigation'
-import CreateItem from "../CreateItem/page";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
-export default function Page(){
-  const router = useRouter()
+export default function Page() {
+  const router = useRouter();
   const [error, setError] = useState(false);
   const [email, setEmail] = useState("");
-const [password, setPassword] = useState("");
-
+  const [password, setPassword] = useState("");
 
   const handleLogin = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(auth);
-    
+    console.log("AuthDetauls", auth);
+
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed up
         const user = userCredential.user;
-        router.push('/Admin/CreateItem')
+        console.log("User", user);
+        console.log(user.uid);
+        if(user.uid){
+          toast.success("Login Successful Tusher Lets's Add Products", {
+            autoClose: 5000, // Set the duration in milliseconds (e.g., 5000 for 5 seconds)
+          });
+        router.push("Login/CreateItem");
+        }else{
+          toast.error("Something Went wrong")
+        }        
+        
         // ...
       })
       .catch((error) => {
@@ -28,8 +37,7 @@ const [password, setPassword] = useState("");
         const errorMessage = error.message;
         console.log(errorMessage);
         console.log(errorCode);
-        
-        
+
         setError(true);
         setEmail("");
         setPassword("");
@@ -37,33 +45,33 @@ const [password, setPassword] = useState("");
       });
   };
   return (
-    
     <div className="bg-white p-4 min-h-screen flex items-center justify-center">
       <form
-        className="flex flex-col items-center justify-center gap-6 sm:p-24 p-6 cursor-pointer bg-yellow-100"
+        className="rounded ring-4 ring-black ring-opacity-50 flex flex-col items-center justify-center gap-6 sm:p-24 p-6 cursor-pointer bg-gradient-to-r from-purple-200 via-pink-200 to-red-100  divide-y divide-fuchsia-300 min-h-[80vh] sm:min-w-[50vh]"
         onSubmit={handleLogin}
       >
-        <p>Login Page of Hoichoi Fashion Admin</p>
+        <p className="text-white font-bold font-mono border">Only for Admin</p>
         <input
-          className="p-3 border"
+          className="p-3 border "
           type="email"
           placeholder="Enter email"
           name="email"
-          onChange={e=>setEmail(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <input
           className="p-3 border"
           type="text"
           placeholder="Enter Password"
           name="password"
-          onChange={e=>setPassword(e.target.value)}
+          onChange={(e) => setPassword(e.target.value)}
         />
         <button
-          className="p-3  bg-black text-white font-semibolds"
+          className="h-12 w-20 bg-black text-white rounded font-semibolds"
           type="submit"
         >
           Login
         </button>
+        <a href="/" className="h-6 border text-white">Back to the Home</a>
         {error && (
           <span className="text-red-500 font-mono ">
             Wrong email or password

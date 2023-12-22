@@ -135,21 +135,24 @@ export default function Header() {
               </Popover.Panel>
             </Transition>
           </Popover>
-          <a href="#" className="text-sm font-semibold leading-6 text-white">
-            Flights
+          <a href="https://www.facebook.com/profile.php?id=100063743310259" className="text-sm font-semibold leading-6 text-white" target="_blank">
+            Fabcebook
           </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-white">
-            Cars
+          <a href="#" className="text-sm font-semibold leading-6 text-white" target="_blank">
+            Contact US!
           </a>
           <a
             href="#"
             className="text-sm font-semibold leading-6 text-white ml-4"
           >
-            Bikes
+            Instagram
           </a>
         </Popover.Group>
         <div className=" hidden lg:flex lg:flex-1 lg:justify-end">
-          <a href="#" className="text-sm font-semibold leading-6 text-white">
+          <a
+            href="/Admin/Login"
+            className="text-sm font-semibold leading-6 text-white"
+          >
             Log in <span aria-hidden="true">&rarr;</span>
           </a>
         </div>
