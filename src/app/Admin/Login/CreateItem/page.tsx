@@ -2,17 +2,13 @@
 import React, {
   useState,
   ChangeEvent,
-  FormEvent,
   useRef,
-  useEffect,
 } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
-// Import your Firebase Storage instance
-import { db, storage } from "../../../firebase";
 import { useProductContext } from "@/Provider/Context/Product.context";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 interface Item {
   name: string;
   size: string;
