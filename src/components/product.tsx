@@ -10,18 +10,20 @@ export default function Product() {
   useEffect(() => {
     const fetchData = async () => {
       const productsData = await getAllProducts();
+      console.log("ProductData",productsData);
+      
       setProducts(productsData);
     };
 
     fetchData();
   }, [getAllProducts]);
-  console.log(products);
+  console.log("Products",products);
  
   return (
     <div className="pt-2 flex flex-row justify-between flex-wrap gap-5 bg-gray-100 dark:bg-gray-900">
         {/* card starts from here  */}
         {products.map((item)=>(
-       <div key={item.id} className="max-w-xs mx-auto p-9 bg-white  rounded-xl shadow-md space-y-6 sm:flex sm:items-center sm:justify-between sm:space-y-2 sm:mx-3 sm:gap-5 sm:max-w-xl">
+       <div key={item.id} className="max-w-xs mx-auto p-9 bg-white  rounded-xl shadow-md space-y-6 sm:flex  sm:justify-between sm:space-y-2 sm:mx-3 sm:gap-5 sm:max-w-xl">
        <img
          src={item.image}
          alt=""

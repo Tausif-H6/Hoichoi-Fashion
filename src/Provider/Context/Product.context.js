@@ -13,7 +13,6 @@ export const useProductContext = () => {
 };
 
 export const ProductProvider = ({ children }) => {
-  const [isLoading, setIsLoading] = useState(false);
 
 
   const addProductHandler = async (product) => {
@@ -67,7 +66,6 @@ export const ProductProvider = ({ children }) => {
 
  const getAllProducts = async () => {
    try {
-     setIsLoading(true);
      const querySnapshot = await getDocs(collection(db, "hoichoiDB"));
      const productsData = querySnapshot.docs.map((doc) => ({
        id: doc.id,
@@ -77,14 +75,12 @@ export const ProductProvider = ({ children }) => {
      return productsData;
    } catch (error) {
      console.error("Error getting all products:", error);
-   } finally {
-     setIsLoading(false);
-   }
+   } 
  };
 
 
   return (
-    <ProductContext.Provider value={{ addProductHandler,getAllProducts,isLoading }}>
+    <ProductContext.Provider value={{ addProductHandler,getAllProducts}}>
       {children}
     </ProductContext.Provider>
   );

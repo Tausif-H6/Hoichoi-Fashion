@@ -6,13 +6,12 @@ import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyD6Ad0itM7X7yME9soMfunK9gApvgT4Z1w",
-  authDomain: "hoichoi-fashion.firebaseapp.com",
-  projectId: "hoichoi-fashion",
-  storageBucket: "hoichoi-fashion.appspot.com",
-  messagingSenderId: "434048649604",
-  appId: "1:434048649604:web:c659597de4baed8c0db5d1",
-  measurementId: "G-E3PE57LW9G",
+  apiKey: "AIzaSyDPyQGMn9dWwX6XrfzQ0WjUgvYOH7wDkPQ",
+  authDomain: "hoicoi.firebaseapp.com",
+  projectId: "hoicoi",
+  storageBucket: "hoicoi.appspot.com",
+  messagingSenderId: "725345752656",
+  appId: "1:725345752656:web:6aa00727a0e023e30b2355",
 };
 
 const app = initializeApp(firebaseConfig);
