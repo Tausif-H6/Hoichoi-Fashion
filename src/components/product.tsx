@@ -20,10 +20,10 @@ export default function Product() {
   console.log("Products",products);
  
   return (
-    <div className="pt-2 flex flex-row justify-between flex-wrap gap-5 bg-gray-100 dark:bg-gray-900">
+    <div className="pt-2 flex flex-row justify-between flex-wrap gap-5 bg-transparent dark:bg-gray-900">
         {/* card starts from here  */}
         {products.map((item)=>(
-       <div key={item.id} className="max-w-xs mx-auto p-9 bg-white  rounded-xl shadow-md space-y-6 sm:flex  sm:justify-between sm:space-y-2 sm:mx-3 sm:gap-5 sm:max-w-xl">
+       <div key={item.id} className="max-w-xs mx-auto p-9 bg-white  rounded-xl shadow-md space-y-6 sm:flex  sm:justify-between sm:space-y-2 sm:mx-3 sm:gap-5 sm:max-w-2xl">
        <img
          src={item.image}
          alt=""
@@ -36,7 +36,7 @@ export default function Product() {
          <div>
            <p className="text-lg text-black font-semibold">{item.name}</p>
            <p className="text-gray-500 font-medium">{item.description}</p>
-           <p>{item.size}</p>
+           <p>Available Sizes: {item.size}</p>
            <p>Price :{item.price}</p>
          </div>
          <button className="px-4 py-1 text-sm  border border-purple-300 rounded-full text-purple-700  sm:rounded

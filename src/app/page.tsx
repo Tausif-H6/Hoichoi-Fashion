@@ -3,9 +3,9 @@ import Product from "@/components/product";
 
 export default function Home() {
   return (
-    <main className="">
+    <body className="bg-gradient-to-r from-purple-200 via-pink-200 to-red-100">
       <Header />
       <Product />
-    </main>
+    </body>
   );
 }

@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Fragment, useState } from "react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/20/solid";
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
+
 import {
   ChevronDownIcon,
   HomeIcon,
@@ -12,25 +13,20 @@ import {
   PlayCircleIcon,
 } from "@heroicons/react/24/solid";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/router";
 
 const products = [
   {
-    name: "Stay with us ",
+    name: "Admin Login ",
     description: "GG",
-    href: "#",
+    href: "/Admin/Login",
     icon: HomeIcon,
   },
   {
-    name: "Aho Hoichoi kori ",
+    name: "FaceBook ",
     description: "GG",
-    href: "#",
+    href: "https://www.facebook.com/p/HoiChoi-Fashion-100063743310259/?paipv=0&eav=AfZBS22bE0IF00Vi6sEy0IHA2l0Fr6dhlHfo7c2CXG0C3fqWNSu1tuBJHy9HpGPyHJY&_rdr",
     icon: PaperAirplaneIcon,
-  },
-  {
-    name: "Pinik contact",
-    description: "GG",
-    href: "#",
-    icon: PhoneIcon,
   },
 ];
 const callsToAction = [
@@ -39,6 +35,7 @@ const callsToAction = [
 ];
 
 export default function Header() {
+ 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   return (
     <header className="bg-[#0f0f0f]">
@@ -135,10 +132,18 @@ export default function Header() {
               </Popover.Panel>
             </Transition>
           </Popover>
-          <a href="https://www.facebook.com/profile.php?id=100063743310259" className="text-sm font-semibold leading-6 text-white" target="_blank">
+          <a
+            href="https://www.facebook.com/profile.php?id=100063743310259"
+            className="text-sm font-semibold leading-6 text-white"
+            target="_blank"
+          >
             Fabcebook
           </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-white" target="_blank">
+          <a
+            href="#"
+            className="text-sm font-semibold leading-6 text-white"
+            target="_blank"
+          >
             Contact US!
           </a>
           <a
@@ -207,7 +212,8 @@ export default function Header() {
                             key={item.name}
                             className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-white hover:bg-blue-800"
                           >
-                            {item.name}
+                            
+                           <a href={item.href}>{item.name}</a>
                           </Disclosure.Button>
                         ))}
                       </Disclosure.Panel>

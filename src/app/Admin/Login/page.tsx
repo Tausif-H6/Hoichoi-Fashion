@@ -50,7 +50,7 @@ export default function Page() {
         className="rounded ring-4 ring-black ring-opacity-50 flex flex-col items-center justify-center gap-6 sm:p-24 p-6 cursor-pointer bg-gradient-to-r from-purple-200 via-pink-200 to-red-100  divide-y divide-fuchsia-300 min-h-[80vh] sm:min-w-[50vh]"
         onSubmit={handleLogin}
       >
-        <p className="text-white font-bold font-mono border">Only for Admin</p>
+        <p className="text-black font-bold font-mono border">Only for Admin</p>
         <input
           className="p-3 border "
           type="email"
@@ -71,7 +71,7 @@ export default function Page() {
         >
           Login
         </button>
-        <a href="/" className="h-6 border text-white">Back to the Home</a>
+        <a href="/" className="h-6 border text-black font-sans font-semibold">Back to the Home</a>
         {error && (
           <span className="text-red-500 font-mono ">
             Wrong email or password
