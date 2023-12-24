@@ -37,7 +37,13 @@ const callsToAction = [
   { name: "See Demo", href: "#", icon: PlayCircleIcon },
   { name: "Contact Support", href: "#", icon: PhoneIcon },
 ];
-
+interface CartItem {
+  id: string;
+  name: string;
+  price: number; // Assuming price is a number, update it accordingly
+  image: string;
+  // Add other properties as needed
+}
 export default function Header() {
   const { cart, removeFromCartHandler, totalPrice } = useProductContext();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -51,9 +57,10 @@ export default function Header() {
     setIsPopupOpen(false);
     console.log("Pressed close");
   };
-  const handleremove = (item) => {
+  const handleremove = (item:CartItem) => {
     removeFromCartHandler(item.id);
   };
+  
   return (
     <header className="bg-[#0f0f0f]">
       <nav
@@ -89,7 +96,7 @@ export default function Header() {
                     Your Cart Items Are:
                   </h1>
                 </div>
-                {cart.map((item) => (
+                {cart.map((item:CartItem) => (
                   <div key={item.id} className="mb-2">
                     <div className="pl-2 flex justify-start items-center font-semibold">
                       <img

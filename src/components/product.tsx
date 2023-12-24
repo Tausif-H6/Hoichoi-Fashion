@@ -1,7 +1,14 @@
 "use client"
 import { useProductContext } from "@/Provider/Context/Product.context";
 import React, { useEffect, useState } from "react";
-
+interface Product {
+  id: string;
+  name: string;
+  description: string;
+  size: string;
+  price: number;
+  image: string;
+}
 export default function Product() {
   const {getAllProducts,addTocartHandeler,cart } = useProductContext();
 
@@ -22,7 +29,7 @@ export default function Product() {
   return (
     <div className="pt-2 flex flex-row justify-between flex-wrap gap-5 bg-transparent dark:bg-gray-900">
         {/* card starts from here  */}
-        {products.map((item)=>(
+        {products.map((item:Product)=>(
        <div key={item.id} className="max-w-xs mx-auto p-9 bg-white  rounded-xl shadow-md space-y-6 sm:flex  sm:justify-between sm:space-y-2 sm:mx-3 sm:gap-5 sm:max-w-2xl">
        <img
          src={item.image}

@@ -21,14 +21,19 @@ export default function Page() {
         const user = userCredential.user;
         console.log("User", user);
         console.log(user.uid);
-        if(user.uid){
+        if (user.uid) {
           toast.success("Login Successful Tusher Lets's Add Products", {
-            autoClose: 5000, // Set the duration in milliseconds (e.g., 5000 for 5 seconds)
+            duration: 5000, // Set the duration in milliseconds (e.g., 5000 for 5 seconds)
           });
-        router.push("Login/CreateItem");
-        }else{
-          toast.error("Something Went wrong")
-        }        
+        
+          setTimeout(() => {
+            router.push("Login/CreateItem");
+          }, 5000); // Use the same duration as the toast
+        } else {
+          toast.error("Something Went wrong");
+        }
+        
+              
         
         // ...
       })

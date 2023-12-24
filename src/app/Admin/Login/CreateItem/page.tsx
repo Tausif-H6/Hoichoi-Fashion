@@ -3,6 +3,7 @@ import React, {
   useState,
   ChangeEvent,
   useRef,
+  FormEvent,
 } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -51,9 +52,7 @@ export default function Page() {
     }
   };
 
-  const handleSubmit = async (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
