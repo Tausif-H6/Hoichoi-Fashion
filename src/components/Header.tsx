@@ -2,7 +2,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Fragment, useState } from "react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/20/solid";
+import {
+  Bars3Icon,
+  XMarkIcon,
+  ShoppingBagIcon,
+} from "@heroicons/react/20/solid";
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
 
 import {
@@ -13,7 +17,7 @@ import {
   PlayCircleIcon,
 } from "@heroicons/react/24/solid";
 import { cn } from "@/lib/utils";
-import { useRouter } from "next/router";
+import { useProductContext } from "@/Provider/Context/Product.context";
 
 const products = [
   {
@@ -35,15 +39,28 @@ const callsToAction = [
 ];
 
 export default function Header() {
- 
+  const { cart, removeFromCartHandler, totalPrice } = useProductContext();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  const openPopup = () => {
+    setIsPopupOpen(true);
+  };
+
+  const closePopup = () => {
+    setIsPopupOpen(false);
+    console.log("Pressed close");
+  };
+  const handleremove = (item) => {
+    removeFromCartHandler(item.id);
+  };
   return (
     <header className="bg-[#0f0f0f]">
       <nav
         className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
         aria-label="Global"
       >
-        <div className="flex lg:flex-1 items-center">
+        <div className="flex lg:flex-1 items-center justify-between">
           {/* logo part  */}
           <Link href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Hoichoi Fashion</span>
@@ -57,6 +74,55 @@ export default function Header() {
               />
             </div>
           </Link>
+          <div className="text-white pl-20 sm:pr-20 flex items-center cursor-pointer relative">
+            <ShoppingBagIcon
+              className="h-6 w-6"
+              aria-hidden="true"
+              onClick={openPopup}
+            />
+            <span className="text-white ml-1">{cart.length}</span>
+
+            {isPopupOpen && (
+              <div className="bg-white text-black absolute top-full left-0 p-2 rounded shadow-md mt-8 z-20 w-72 ">
+                <div className="text-center mb-2">
+                  <h1 className="text-lg font-semibold">
+                    Your Cart Items Are:
+                  </h1>
+                </div>
+                {cart.map((item) => (
+                  <div key={item.id} className="mb-2">
+                    <div className="pl-2 flex justify-start items-center font-semibold">
+                      <img
+                        src={item.image}
+                        alt=""
+                        className="h-5 w-5 rounded-full ml-2"
+                      />
+                      <span className="ml-1 text-xs">Product :{item.name}</span>
+                      <span className="ml-1 text-xs">
+                        Price: {item.price}Tk
+                      </span>
+
+                      <button
+                        className="ml-1 text-xs hover:text-red-600"
+                        onClick={() => handleremove(item)}
+                      >
+                        Remove
+                      </button>
+                    </div>
+                    <div className="m-6 text-xs font-semibold">
+                      Total price: {totalPrice}Tk
+                    </div>
+                  </div>
+                ))}
+                <button
+                  className="bg-green-500 text-white px-2 py-1 rounded"
+                  onClick={closePopup}
+                >
+                  Close
+                </button>
+              </div>
+            )}
+          </div>
         </div>
         <div className="flex lg:hidden">
           <button
@@ -212,8 +278,7 @@ export default function Header() {
                             key={item.name}
                             className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-white hover:bg-blue-800"
                           >
-                            
-                           <a href={item.href}>{item.name}</a>
+                            <a href={item.href}>{item.name}</a>
                           </Disclosure.Button>
                         ))}
                       </Disclosure.Panel>

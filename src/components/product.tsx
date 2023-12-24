@@ -3,7 +3,7 @@ import { useProductContext } from "@/Provider/Context/Product.context";
 import React, { useEffect, useState } from "react";
 
 export default function Product() {
-  const {getAllProducts,isLoading } = useProductContext();
+  const {getAllProducts,addTocartHandeler,cart } = useProductContext();
 
   const [products, setProducts] = useState([]);
 
@@ -43,7 +43,9 @@ export default function Product() {
          hover:bg-purple-500 hover:text-white 
           focus:outline-none
           focus:ring-2
-         ">Buy Now!</button>
+         "
+         onClick={()=>addTocartHandeler(item)}
+         >Add to cart!</button>
        </div>
      </div> 
      ))}
