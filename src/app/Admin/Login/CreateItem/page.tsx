@@ -80,7 +80,7 @@ export default function Page() {
         fileInputRef.current.value = "";
       }
       toast.success("Product Added");
-    } catch (error) {
+    } catch (error:any) {
       toast.error(error.message);
       console.error("Error adding item to Firestore:", error);
     }
