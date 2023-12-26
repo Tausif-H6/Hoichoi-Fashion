@@ -1,14 +1,10 @@
 "use client";
-import React, {
-  useState,
-  ChangeEvent,
-  useRef,
-  FormEvent,
-} from "react";
+import React, { useState, ChangeEvent, useRef, FormEvent } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
 import { useProductContext } from "@/Provider/Context/Product.context";
+import Loader from "../../../../components/loader/loader";
 import toast from "react-hot-toast";
 interface Item {
   name: string;
@@ -20,6 +16,7 @@ interface Item {
 
 export default function Page() {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const { addProductHandler, getAllProducts } = useProductContext();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [items, setItems] = useState<Item>({
@@ -65,6 +62,7 @@ export default function Page() {
       ) {
         throw new Error("Please fill out all fields before submitting.");
       }
+      setLoading(true);
       await addProductHandler(items);
       // Reset the form after submission
       setItems({
@@ -79,82 +77,87 @@ export default function Page() {
         fileInputRef.current.value = "";
       }
       toast.success("Product Added");
-    } catch (error:any) {
+    } catch (error: any) {
       toast.error(error.message);
       console.error("Error adding item to Firestore:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-between sm:p-24 p-4">
-      {/* Add product form */}
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm">
-        <button
-          className="h-8 w-20 bg-black text-white rounded"
-          onClick={() => router.push("/")}
-        >
-          Logout
-        </button>
-        <h1 className="text-4xl p-4 text-center">Welcome Tusher</h1>
-        <div className="bg-red-100 p-4 rounded-lg">
-          <form
-            className="grid grid-cols-1 gap-5 items-center text-black"
-            onSubmit={handleSubmit}
+      {loading ? (
+        <Loader />
+      ) : (
+        <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm">
+          <button
+            className="h-8 w-20 bg-black text-white rounded"
+            onClick={() => router.push("/")}
           >
-            <input
-              className="col-span-3 p-3 border"
-              type="text"
-              placeholder="Enter Item Name"
-              name="name"
-              value={items.name}
-              onChange={handleChange}
-            />
-            <input
-              className="col-span-3 p-3 border"
-              type="text"
-              placeholder="Enter Item Price"
-              name="price"
-              value={items.price}
-              onChange={handleChange}
-            />
-            <input
-              className="col-span-3 p-3 border"
-              type="text"
-              placeholder="Enter Item Size"
-              name="size"
-              value={items.size}
-              onChange={handleChange}
-            />
-            <input
-              className="col-span-3 p-3 border"
-              type="text"
-              placeholder="Enter Product description"
-              name="description"
-              value={items.description}
-              onChange={handleChange}
-            />
-            {/* ... other input fields ... */}
-            <div className="grid w-full max-w-sm items-center gap-1.5">
-              <Label htmlFor="picture">
-                Picture <span className="text-red-600">***</span>
-              </Label>
-              <Input
-                id="picture"
-                type="file"
-                name="picture"
-                ref={fileInputRef}
+            Logout
+          </button>
+          <h1 className="text-4xl p-4 text-center">Welcome Tusher</h1>
+          <div className="bg-red-100 p-4 rounded-lg">
+            <form
+              className="grid grid-cols-1 gap-5 items-center text-black"
+              onSubmit={handleSubmit}
+            >
+              <input
+                className="col-span-3 p-3 border"
+                type="text"
+                placeholder="Enter Item Name"
+                name="name"
+                value={items.name}
                 onChange={handleChange}
               />
-            </div>
-            <button
-              className="col-span-3 border text-white bg-slate-950 hover:bg-slate-900 p-3 text-xl rounded"
-              type="submit"
-            >
-              Submit
-            </button>
-          </form>
+              <input
+                className="col-span-3 p-3 border"
+                type="text"
+                placeholder="Enter Item Price"
+                name="price"
+                value={items.price}
+                onChange={handleChange}
+              />
+              <input
+                className="col-span-3 p-3 border"
+                type="text"
+                placeholder="Enter Item Size"
+                name="size"
+                value={items.size}
+                onChange={handleChange}
+              />
+              <input
+                className="col-span-3 p-3 border"
+                type="text"
+                placeholder="Enter Product description"
+                name="description"
+                value={items.description}
+                onChange={handleChange}
+              />
+              {/* ... other input fields ... */}
+              <div className="grid w-full max-w-sm items-center gap-1.5">
+                <Label htmlFor="picture">
+                  Picture <span className="text-red-600">***</span>
+                </Label>
+                <Input
+                  id="picture"
+                  type="file"
+                  name="picture"
+                  ref={fileInputRef}
+                  onChange={handleChange}
+                />
+              </div>
+              <button
+                className="col-span-3 border text-white bg-slate-950 hover:bg-slate-900 p-3 text-xl rounded"
+                type="submit"
+              >
+                Submit
+              </button>
+            </form>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
