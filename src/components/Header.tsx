@@ -6,6 +6,7 @@ import {
   Bars3Icon,
   XMarkIcon,
   ShoppingBagIcon,
+  TrashIcon
 } from "@heroicons/react/20/solid";
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
 
@@ -96,7 +97,7 @@ export default function Header() {
             <span className="text-white ml-1">{cart.length}</span>
 
             {isPopupOpen && (
-              <div className="bg-white text-black absolute top-full left-0 p-2 rounded shadow-md mt-8 z-20 w-72 ">
+              <div className="bg-white text-black absolute top-full left-0 p-2 rounded shadow-md mt-8 z-20 w-max ">
                 <div className="text-center mb-2">
                   <h1 className="text-lg font-semibold">
                     Your Cart Items Are:
@@ -115,12 +116,13 @@ export default function Header() {
                         Price: {item.price}Tk
                       </span>
 
-                      <button
+                      {/* <button
                         className="ml-1 text-xs hover:text-red-600"
                         onClick={() => handleremove(item)}
                       >
                         Remove
-                      </button>
+                      </button> */}
+                      <TrashIcon className="w-5 h-5 ml-2 hover:text-red-600" onClick={() => handleremove(item)}/>
                     </div>
                   </div>
                 ))}
