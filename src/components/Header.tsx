@@ -18,6 +18,8 @@ import {
 } from "@heroicons/react/24/solid";
 import { cn } from "@/lib/utils";
 import { useProductContext } from "@/Provider/Context/Product.context";
+import toast from "react-hot-toast";
+
 
 const products = [
   {
@@ -57,9 +59,13 @@ export default function Header() {
     setIsPopupOpen(false);
     console.log("Pressed close");
   };
-  const handleremove = (item:CartItem) => {
+  const handleremove = (item: CartItem) => {
     removeFromCartHandler(item.id);
   };
+ 
+  const handlePayment = async () => {
+  toast.error("Payment page is under construction")
+};
   
   return (
     <header className="bg-[#0f0f0f]">
@@ -96,7 +102,7 @@ export default function Header() {
                     Your Cart Items Are:
                   </h1>
                 </div>
-                {cart.map((item:CartItem) => (
+                {cart.map((item: CartItem) => (
                   <div key={item.id} className="mb-2">
                     <div className="pl-2 flex justify-start items-center font-semibold">
                       <img
@@ -116,17 +122,25 @@ export default function Header() {
                         Remove
                       </button>
                     </div>
-                    <div className="m-6 text-xs font-semibold">
-                      Total price: {totalPrice}Tk
-                    </div>
                   </div>
                 ))}
-                <button
-                  className="bg-green-500 text-white px-2 py-1 rounded"
-                  onClick={closePopup}
-                >
-                  Close
-                </button>
+                <div className="m-6 text-xs font-semibold">
+                  Total price: {totalPrice}Tk
+                </div>
+                <div className="flex justify-between">
+                  <button
+                    className="bg-green-500 text-white px-2 py-1 rounded"
+                    onClick={closePopup}
+                  >
+                    Close
+                  </button>
+                  <button
+                    className="bg-green-500 text-white px-2 py-1 rounded"
+                    onClick={handlePayment}
+                  >
+                    Payment
+                  </button>
+                </div>
               </div>
             )}
           </div>
