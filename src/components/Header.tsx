@@ -6,7 +6,7 @@ import {
   Bars3Icon,
   XMarkIcon,
   ShoppingBagIcon,
-  TrashIcon
+  TrashIcon,
 } from "@heroicons/react/20/solid";
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
 
@@ -20,7 +20,6 @@ import {
 import { cn } from "@/lib/utils";
 import { useProductContext } from "@/Provider/Context/Product.context";
 import toast from "react-hot-toast";
-
 
 const products = [
   {
@@ -63,24 +62,25 @@ export default function Header() {
   const handleremove = (item: CartItem) => {
     removeFromCartHandler(item.id);
   };
- 
+
   const handlePayment = async () => {
-  toast.error("Payment page is under construction")
-};
-  
+    toast.error("Payment page is under construction");
+  };
+
   return (
     <header className="bg-[#0f0f0f]">
       <nav
         className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
         aria-label="Global"
       >
-        <div className="flex lg:flex-1 items-center justify-between">
+        <div className="flex lg:flex-1 items-center justify-between ">
           {/* logo part  */}
+
           <Link href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Hoichoi Fashion</span>
             <div className="rounded-full ring ring-lime-50 overflow-hidden">
               <Image
-                className="h-12 w-12 "
+                className="h-12 w-12 animate-pulse "
                 src="/hoichoi.jpg"
                 alt="hoichoi"
                 width="48"
@@ -88,6 +88,7 @@ export default function Header() {
               />
             </div>
           </Link>
+          
           <div className="text-white pl-20 sm:pr-20 flex items-center cursor-pointer relative">
             <ShoppingBagIcon
               className="h-6 w-6"
@@ -122,7 +123,10 @@ export default function Header() {
                       >
                         Remove
                       </button> */}
-                      <TrashIcon className="w-5 h-5 ml-2 hover:text-red-600" onClick={() => handleremove(item)}/>
+                      <TrashIcon
+                        className="w-5 h-5 ml-2 hover:text-red-600"
+                        onClick={() => handleremove(item)}
+                      />
                     </div>
                   </div>
                 ))}
@@ -243,6 +247,7 @@ export default function Header() {
           </a>
         </Popover.Group>
         <div className=" hidden lg:flex lg:flex-1 lg:justify-end">
+          
           <a
             href="/Admin/Login"
             className="text-sm font-semibold leading-6 text-white"
