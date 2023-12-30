@@ -4,50 +4,51 @@ import React, { FormEvent, useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import axios from "axios";
 
 export default function Page() {
   const router = useRouter();
   const [error, setError] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleLogin = (e: FormEvent<HTMLFormElement>) => {
+  const [user, setUser] = React.useState({
+    email: "",
+    password: "",
+  });
+  const [buttonDisabled, setButtonDisabled] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+  React.useEffect(() => {
+    if (user.email.length > 0 && user.password.length > 0) {
+      setButtonDisabled(false);
+    } else {
+      setButtonDisabled(true);
+    }
+  }, [user]);
+  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("AuthDetauls", auth);
+    try {
+      setLoading(true);
+      const response = await axios.post("/api/users/login", user);
+      if (response.data.success) {
+        toast.success("Login Successful Tusher Lets's Add Products", {
+          duration: 2000, // Set the duration in milliseconds (e.g., 5000 for 5 seconds)
+        });
 
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed up
-        const user = userCredential.user;
-        console.log("User", user);
-        console.log(user.uid);
-        if (user.uid) {
-          toast.success("Login Successful Tusher Lets's Add Products", {
-            duration: 5000, // Set the duration in milliseconds (e.g., 5000 for 5 seconds)
-          });
-        
-          setTimeout(() => {
-            router.push("Login/CreateItem");
-          }, 5000); // Use the same duration as the toast
-        } else {
-          toast.error("Something Went wrong");
-        }
-        
-              
-        
-        // ...
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorMessage);
-        console.log(errorCode);
+        setTimeout(() => {
+          router.push("Login/CreateItem");
+        }, 5000); // Use the same duration as the toast
+      } else {
+        toast.error("Something Went wrong");
+      }
+    } catch (error: any) {
+      console.log("Login failed", error.message);
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
 
-        setError(true);
-        setEmail("");
-        setPassword("");
-        // ..
-      });
+    setUser({
+      email: "",
+      password: "",
+    });
   };
   return (
     <div className="bg-white p-4 min-h-screen flex items-center justify-center">
@@ -55,28 +56,34 @@ export default function Page() {
         className="rounded ring-4 ring-black ring-opacity-50 flex flex-col items-center justify-center gap-6 sm:p-24 p-6 cursor-pointer bg-gradient-to-r from-purple-200 via-pink-200 to-red-100  divide-y divide-fuchsia-300 min-h-[80vh] sm:min-w-[50vh]"
         onSubmit={handleLogin}
       >
-        <p className="text-black font-bold font-mono border">Only for Admin</p>
+        <p className="text-black font-bold font-mono border">
+          {loading ? "Processing" : "Login"}
+        </p>
         <input
           className="p-3 border "
           type="email"
           placeholder="Enter email"
           name="email"
-          onChange={(e) => setEmail(e.target.value)}
+          value={user.email}
+          onChange={(e) => setUser({ ...user, email: e.target.value })}
         />
         <input
           className="p-3 border"
           type="text"
           placeholder="Enter Password"
           name="password"
-          onChange={(e) => setPassword(e.target.value)}
+          value={user.password}
+          onChange={(e) => setUser({ ...user, password: e.target.value })}
         />
         <button
           className="h-12 w-20 bg-black text-white rounded font-semibolds"
           type="submit"
         >
-          Login
+          {buttonDisabled ? "Not able to Login" : "Login"}
         </button>
-        <a href="/" className="h-6 border text-black font-sans font-semibold">Back to the Home</a>
+        <a href="/" className="h-6 border text-black font-sans font-semibold">
+          Back to the Home
+        </a>
         {error && (
           <span className="text-red-500 font-mono ">
             Wrong email or password
