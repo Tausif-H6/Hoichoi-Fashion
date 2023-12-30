@@ -7,6 +7,7 @@ import { useProductContext } from "@/Provider/Context/Product.context";
 import Loader from "../../../../components/loader/loader";
 import toast from "react-hot-toast";
 import axios from "axios";
+import Link from "next/link";
 interface Item {
   name: string;
   size: string;
@@ -14,11 +15,15 @@ interface Item {
   description: string;
   picture: File | null;
 }
+interface UserData{
+  _id:string;
+}
 
 export default function Page() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const { addProductHandler, getAllProducts } = useProductContext();
+  const { addProductHandler} = useProductContext();
+  const [userData,setUserData]= React.useState<UserData | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [items, setItems] = useState<Item>({
     name: "",
@@ -98,6 +103,23 @@ export default function Page() {
       toast.error(error.message);
     }
   };
+
+  React.useEffect(()=>{
+    const getUserDetails = async ()=>{
+     try {
+      const res = await axios.get("/api/users/me")
+      setUserData(res.data.data)
+     } catch (error:any) {
+      console.error("Error fetching user details:", error.message);
+     }
+
+    }
+    // Call the function when the component mounts
+    getUserDetails();
+  },[])
+
+  console.log("user Data",userData?._id);
+  
   
   return (
     <div className="flex min-h-screen flex-col items-center justify-between sm:p-24 p-4">
@@ -111,6 +133,7 @@ export default function Page() {
           >
             Logout
           </button>
+          <Link href={`/Admin/Login/CreateItem/${userData?._id}`} className="ml-5 p-2 bg-green-400 rounded"> See Profile </Link>
           <h1 className="text-4xl p-4 text-center">Welcome Tusher</h1>
           <div className="bg-red-100 p-4 rounded-lg">
             <form
