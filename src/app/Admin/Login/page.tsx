@@ -1,7 +1,5 @@
 "use client";
-import { auth } from "@/app/firebase";
 import React, { FormEvent, useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import axios from "axios";

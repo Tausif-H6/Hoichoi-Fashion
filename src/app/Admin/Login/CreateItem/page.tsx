@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useProductContext } from "@/Provider/Context/Product.context";
 import Loader from "../../../../components/loader/loader";
 import toast from "react-hot-toast";
+import axios from "axios";
 interface Item {
   name: string;
   size: string;
@@ -85,6 +86,19 @@ export default function Page() {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      const response = await axios.get('/api/users/logout');  // Notice the '/' at the beginning
+      console.log(response);
+      if (response.data.success) {
+        router.push("/");
+      }
+    } catch (error: any) {
+      console.log("Logout failed", error.message);
+      toast.error(error.message);
+    }
+  };
+  
   return (
     <div className="flex min-h-screen flex-col items-center justify-between sm:p-24 p-4">
       {loading ? (
@@ -93,7 +107,7 @@ export default function Page() {
         <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm">
           <button
             className="h-8 w-20 bg-black text-white rounded"
-            onClick={() => router.push("/")}
+            onClick={handleLogout}
           >
             Logout
           </button>
