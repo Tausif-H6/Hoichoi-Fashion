@@ -35,7 +35,7 @@ export default function Product() {
   console.log("Products",products);
  
   return (
-    <div className="pt-2 pb-2 flex flex-row justify-between flex-wrap gap-5 bg-transparent dark:bg-gray-900">
+    <div className="pt-2 pb-2 flex flex-row justify-between flex-wrap gap-5 bg-transparent dark:bg-gray-900 ">
       {loading ? (
         // Display loading state while fetching data
         <Loader/>
