@@ -20,6 +20,8 @@ import {
 import { cn } from "@/lib/utils";
 import { useProductContext } from "@/Provider/Context/Product.context";
 import toast from "react-hot-toast";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const products = [
   {
@@ -47,6 +49,7 @@ interface CartItem {
   // Add other properties as needed
 }
 export default function Header() {
+  const router = useRouter()
   const { cart, removeFromCartHandler, totalPrice } = useProductContext();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -64,7 +67,17 @@ export default function Header() {
   };
 
   const handlePayment = async () => {
-    toast.error("Payment page is under construction");
+    // toast.error("Payment page is under construction");
+    try {
+      const response = await axios.post('/api/payment');
+      router.push(`${response.data.data.GatewayPageURL}`)
+      console.log("paymentResponse",response);
+      
+    } catch (error:any) {
+      console.log("Payment page error", error.message);
+        
+        toast.error(error.message);
+    }
   };
 
   return (
