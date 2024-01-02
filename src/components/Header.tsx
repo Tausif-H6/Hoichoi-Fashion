@@ -45,7 +45,7 @@ interface CartItem {
   id: string;
   name: string;
   price: number; // Assuming price is a number, update it accordingly
-  image: string;
+  picture: string;
   // Add other properties as needed
 }
 export default function Header() {
@@ -121,7 +121,7 @@ export default function Header() {
                   <div key={item.id} className="mb-2">
                     <div className="pl-2 flex justify-start items-center font-semibold">
                       <img
-                        src={item.image}
+                        src={item.picture}
                         alt=""
                         className="h-5 w-5 rounded-full ml-2"
                       />

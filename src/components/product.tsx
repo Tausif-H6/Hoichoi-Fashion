@@ -2,15 +2,16 @@
 import { useProductContext } from "@/Provider/Context/Product.context";
 import React, { useEffect, useState } from "react";
 import Loader from "./loader/loader";
+import axios from "axios";
 interface Product {
   id: string;
   name: string;
   description: string;
   size: string;
   price: number;
-  image: string;
+  picture: string;
 }
-
+import {addTocart} from "../helpers/cartUtils";
 export default function Product() {
   const {getAllProducts,addTocartHandeler,cart } = useProductContext();
   const [loading, setLoading] = useState(true);
@@ -20,9 +21,10 @@ export default function Product() {
     const fetchData = async () => {
       try {
         setLoading(true); // Set loading to true when starting to fetch data
-        const productsData = await getAllProducts();
+        // const productsData = await getAllProducts();
+        const productsData = await axios.get("/api/product/get")
         console.log("ProductData", productsData);
-        setProducts(productsData);
+        setProducts(productsData.data);
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
@@ -31,7 +33,7 @@ export default function Product() {
     };
 
     fetchData();
-  }, [getAllProducts]);
+  }, []);
   console.log("Products",products);
  
   return (
@@ -47,7 +49,7 @@ export default function Product() {
             className="max-w-xs mx-auto p-9 bg-white rounded-xl shadow-md space-y-6 sm:flex sm:justify-between sm:space-y-2 sm:mx-3 sm:gap-5 sm:max-w-2xl"
           >
             <img
-              src={item.image}
+              src={item.picture}
               alt=""
               className="h-30 mx-auto overflow-hidden sm:mx-0 ring-2 ring-purple-500 ring-offset-4 ring-offset-slate-50 dark:ring-offset-slate-900 transform hover:scale-105 duration-500"
             />

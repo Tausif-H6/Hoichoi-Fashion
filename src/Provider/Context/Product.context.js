@@ -71,7 +71,6 @@ export const ProductProvider = ({ children }) => {
         id: doc.id,
         ...doc.data(),
       }));
-      console.log("All products", productsData);
       return productsData;
     } catch (error) {
       console.error("Error getting all products:", error);
@@ -93,7 +92,6 @@ export const ProductProvider = ({ children }) => {
    );
    setTotalPrice(calculatedTotalPrice);
  }, [cart]);
-  console.log("Cart", cart);
   return (
     <ProductContext.Provider
       value={{

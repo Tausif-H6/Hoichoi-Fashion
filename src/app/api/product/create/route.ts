@@ -17,11 +17,13 @@ export async function POST(req: NextRequest) {
       picture,
     });
     const savedProduct = await newProduct.save();
-    return NextResponse.json({
+    const resp = NextResponse.json({
       message: "Product Created ",
       success: true,
       savedProduct,
     });
+    return resp
+    
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
