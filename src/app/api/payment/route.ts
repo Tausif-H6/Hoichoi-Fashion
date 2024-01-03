@@ -20,14 +20,14 @@ export async function POST(request: NextRequest) {
     formData.append("tran_id", `${tran_id}`);
     formData.append(
       "success_url",
-      `http://localhost:3000/api/success?id=${tran_id}`
+      `https://hoichoi-fashion.vercel.app/api/success?id=${tran_id}`
     );
-    formData.append("fail_url", `http://localhost:3000/api/fail?id=${tran_id}`);
+    formData.append("fail_url", `https://hoichoi-fashion.vercel.app/api/fail?id=${tran_id}`);
     formData.append(
       "cancel_url",
-      `http://localhost:3000/api/cancel?id=${tran_id}`
+      `https://hoichoi-fashion.vercel.app/api/cancel?id=${tran_id}`
     );
-    formData.append("ipn_url", `http://localhost:3000/api/ipn?id=${tran_id}`);
+    formData.append("ipn_url", `https://hoichoi-fashion.vercel.app/api/ipn?id=${tran_id}`);
     formData.append("cus_email", "tsftous9f2@gmail.com");
     formData.append("cus_name", "Tausif Hossain");
     formData.append("cus_country", "Bangladesh");
