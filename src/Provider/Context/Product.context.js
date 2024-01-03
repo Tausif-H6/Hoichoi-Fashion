@@ -143,6 +143,7 @@ export const ProductProvider = ({ children }) => {
         removeFromCartHandler,
         totalPrice,
         makePayment,
+        uploadFile,
       }}
     >
       {children}

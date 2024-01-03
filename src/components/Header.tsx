@@ -135,7 +135,7 @@ export default function Header() {
                         alt=""
                         className="h-5 w-5 rounded-full ml-2"
                       />
-                      <p>{item.picture}</p>
+                     
                       <span className="ml-1 text-xs">Product :{item.name}</span>
                       <span className="ml-1 text-xs">
                         Price: {item.price}Tk

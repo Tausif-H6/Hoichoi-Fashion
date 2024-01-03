@@ -7,6 +7,7 @@ import Loader from "../../../../components/loader/loader";
 import toast from "react-hot-toast";
 import axios from "axios";
 import Link from "next/link";
+import { useProductContext } from "@/Provider/Context/Product.context";
 interface Item {
   name: string;
   size: string;
@@ -22,7 +23,7 @@ interface UserData {
 export default function Page() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  // const { addProductHandler } = useProductContext();
+  const { addProductHandler , uploadFile} = useProductContext();
   const [userData, setUserData] = React.useState<UserData | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [items, setItems] = useState<Item>({
@@ -55,11 +56,12 @@ export default function Page() {
   //     }));
   //   }
   // };
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async(e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      const imgurl = URL.createObjectURL(file);//Mendatory to submit a picture
-      setItems({ ...items, picture: imgurl });
+      // const imgurl = URL.createObjectURL(file);//Mendatory to submit a picture
+      const imageFromFirebaseStore = await uploadFile(file);
+      setItems({ ...items, picture: imageFromFirebaseStore });
       // You can also set the image URL in the state if needed
       // setImage(imgurl);
     }
