@@ -1,10 +1,11 @@
 "use client";
-import { createContext, useContext, useState,useEffect } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { setDoc, doc, collection } from "firebase/firestore";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { db, storage } from "@/app/firebase";
 import { v4 as uuid } from "uuid";
 import { getDocs } from "firebase/firestore";
+import { useRouter } from "next/navigation";
 
 export const ProductContext = createContext();
 
@@ -13,8 +14,9 @@ export const useProductContext = () => {
 };
 
 export const ProductProvider = ({ children }) => {
+   const router = useRouter();
   const [cart, setcart] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0); 
+  const [totalPrice, setTotalPrice] = useState(0);
 
   const addProductHandler = async (product) => {
     try {
@@ -85,13 +87,52 @@ export const ProductProvider = ({ children }) => {
     const updatedCart = cart.filter((item) => item.id !== productId);
     setcart(updatedCart);
   };
- useEffect(() => {
-   const calculatedTotalPrice = cart.reduce(
-     (accumulator, item) => accumulator + parseFloat(item.price), // Convert to number
-     0
-   );
-   setTotalPrice(calculatedTotalPrice);
- }, [cart]);
+  useEffect(() => {
+    const calculatedTotalPrice = cart.reduce(
+      (accumulator, item) => accumulator + parseFloat(item.price), // Convert to number
+      0
+    );
+    setTotalPrice(calculatedTotalPrice);
+  }, [cart]);
+
+  // make payment injecting a custom payload information
+
+  const makePayment = async () => {
+    
+    try {
+      // You can include other necessary information in the payload
+      const paymentPayload = {
+        cart,
+        totalPrice,
+        // Add other necessary information
+      };
+
+      // Call the API to initialize payment
+      const response = await fetch("/api/payment", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(paymentPayload),
+      });
+      const responseData = await response.json();
+     console.log("Payment response ", response);
+       if (
+         responseData &&
+         responseData.data &&
+         responseData.data.GatewayPageURL
+       ) {
+         // Redirect the user to the payment gateway
+         router.push(responseData.data.GatewayPageURL);
+       } else {
+         console.error("Invalid response from payment initialization API");
+         // Handle the case where the response does not contain the expected data
+       }
+    } catch (error) {
+      console.error("Error making payment:", error);
+      // Handle unexpected errors
+    }
+  };
   return (
     <ProductContext.Provider
       value={{
@@ -101,6 +142,7 @@ export const ProductProvider = ({ children }) => {
         cart,
         removeFromCartHandler,
         totalPrice,
+        makePayment,
       }}
     >
       {children}

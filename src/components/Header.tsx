@@ -50,7 +50,7 @@ interface CartItem {
 }
 export default function Header() {
   const router = useRouter()
-  const { cart, removeFromCartHandler, totalPrice } = useProductContext();
+  const { cart, removeFromCartHandler, totalPrice,makePayment } = useProductContext();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -68,17 +68,27 @@ export default function Header() {
 
   const handlePayment = async () => {
     // toast.error("Payment page is under construction");
-    try {
-      const response = await axios.post('/api/payment');
-      router.push(`${response.data.data.GatewayPageURL}`)
-      console.log("paymentResponse",response);
+    // try {
+    //   const response = await axios.post('/api/payment');
+    //   router.push(`${response.data.data.GatewayPageURL}`)
+    //   console.log("paymentResponse",response);
       
-    } catch (error:any) {
-      console.log("Payment page error", error.message);
+    // } catch (error:any) {
+    //   console.log("Payment page error", error.message);
         
-        toast.error(error.message);
+    //     toast.error(error.message);
+    // }
+    try {
+      // Call the makePayment function from the context API
+      await makePayment();
+
+    } catch (error:any) {
+      console.error('Payment page error', error.message);
+      toast.error(error.message);
     }
   };
+   
+   
 
   return (
     <header className="bg-[#0f0f0f]">
@@ -125,6 +135,7 @@ export default function Header() {
                         alt=""
                         className="h-5 w-5 rounded-full ml-2"
                       />
+                      <p>{item.picture}</p>
                       <span className="ml-1 text-xs">Product :{item.name}</span>
                       <span className="ml-1 text-xs">
                         Price: {item.price}Tk
