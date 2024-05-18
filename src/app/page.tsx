@@ -1,5 +1,5 @@
 import Header from "@/components/Header";
-import Product from "@/components/product";
+import Product from "./Products/Products";
 
 export default function Home() {
   return (
