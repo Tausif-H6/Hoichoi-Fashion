@@ -5,6 +5,10 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
 
 export default function SingleProduct({ params }) {
   const router = useRouter();
@@ -12,6 +16,7 @@ export default function SingleProduct({ params }) {
   const { products, addTocartHandeler, cart } = useProductContext(); // Assuming you have access to the cart state from the context
   const [singleProduct, setSingleProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
+  const [selectedSize, setSelectedSize] = useState("");
 
   useEffect(() => {
     if (products.length > 0) {
@@ -30,8 +35,6 @@ export default function SingleProduct({ params }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission (e.g., add to cart or place an order)
-    console.log("Form submitted with quantity:", quantity);
     addTocart();
   };
 
@@ -42,7 +45,12 @@ export default function SingleProduct({ params }) {
     }
   };
 
+  const handleSizeChange = (e) => {
+    setSelectedSize(e.target.value);
+  };
+
   const { description, picture, price, product_category, size } = singleProduct;
+  const sizeArray = size.split(",").map((s) => s.trim());
 
   const addTocart = () => {
     const totalPrice = quantity * price; // Calculate the total price for the current product
@@ -50,6 +58,7 @@ export default function SingleProduct({ params }) {
       item: singleProduct,
       quantity: quantity,
       totalPrice: totalPrice, // Use the calculated total price
+      selectedSize: selectedSize, // Include selected size
     };
     addTocartHandeler(cartInformation);
     navigateToHomePage();
@@ -78,8 +87,21 @@ export default function SingleProduct({ params }) {
           <div className="p-8">
             <h1 className="text-xl font-bold text-gray-900">{description}</h1>
             <p className="mt-2 text-gray-600">{product_category}</p>
-            <p className="mt-2 text-gray-600">Size: {size}</p>
             <p className="mt-2 text-gray-600">Price: ${price}</p>
+            <FormControl fullWidth margin="normal" variant="outlined">
+              <InputLabel>Size</InputLabel>
+              <Select
+                value={selectedSize}
+                onChange={handleSizeChange}
+                label="Size"
+              >
+                {sizeArray.map((sizeOption) => (
+                  <MenuItem key={sizeOption} value={sizeOption}>
+                    {sizeOption}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
             <form onSubmit={handleSubmit} className="mt-4">
               <TextField
                 label="Quantity"
