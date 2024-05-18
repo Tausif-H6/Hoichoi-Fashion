@@ -14,9 +14,12 @@ export const useProductContext = () => {
 };
 
 export const ProductProvider = ({ children }) => {
-   const router = useRouter();
+  const router = useRouter();
   const [cart, setcart] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [products, setProducts] = useState([]);
+
+  console.log(`cart`, cart);
 
   const addProductHandler = async (product) => {
     try {
@@ -89,7 +92,7 @@ export const ProductProvider = ({ children }) => {
   };
   useEffect(() => {
     const calculatedTotalPrice = cart.reduce(
-      (accumulator, item) => accumulator + parseFloat(item.price), // Convert to number
+      (accumulator, item) => accumulator + item.totalPrice,
       0
     );
     setTotalPrice(calculatedTotalPrice);
@@ -98,7 +101,6 @@ export const ProductProvider = ({ children }) => {
   // make payment injecting a custom payload information
 
   const makePayment = async () => {
-    
     try {
       // You can include other necessary information in the payload
       const paymentPayload = {
@@ -116,18 +118,18 @@ export const ProductProvider = ({ children }) => {
         body: JSON.stringify(paymentPayload),
       });
       const responseData = await response.json();
-     console.log("Payment response ", response);
-       if (
-         responseData &&
-         responseData.data &&
-         responseData.data.GatewayPageURL
-       ) {
-         // Redirect the user to the payment gateway
-         router.push(responseData.data.GatewayPageURL);
-       } else {
-         console.error("Invalid response from payment initialization API");
-         // Handle the case where the response does not contain the expected data
-       }
+      console.log("Payment response ", response);
+      if (
+        responseData &&
+        responseData.data &&
+        responseData.data.GatewayPageURL
+      ) {
+        // Redirect the user to the payment gateway
+        router.push(responseData.data.GatewayPageURL);
+      } else {
+        console.error("Invalid response from payment initialization API");
+        // Handle the case where the response does not contain the expected data
+      }
     } catch (error) {
       console.error("Error making payment:", error);
       // Handle unexpected errors
@@ -144,6 +146,8 @@ export const ProductProvider = ({ children }) => {
         totalPrice,
         makePayment,
         uploadFile,
+        products,
+        setProducts,
       }}
     >
       {children}

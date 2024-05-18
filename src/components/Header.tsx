@@ -41,16 +41,11 @@ const callsToAction = [
   { name: "See Demo", href: "#", icon: PlayCircleIcon },
   { name: "Contact Support", href: "#", icon: PhoneIcon },
 ];
-interface CartItem {
-  id: string;
-  name: string;
-  price: number; // Assuming price is a number, update it accordingly
-  picture: string;
-  // Add other properties as needed
-}
+
 export default function Header() {
-  const router = useRouter()
-  const { cart, removeFromCartHandler, totalPrice,makePayment } = useProductContext();
+  const router = useRouter();
+  const { cart, removeFromCartHandler, totalPrice, makePayment } =
+    useProductContext();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -62,7 +57,7 @@ export default function Header() {
     setIsPopupOpen(false);
     console.log("Pressed close");
   };
-  const handleremove = (item: CartItem) => {
+  const handleremove = (item: any) => {
     removeFromCartHandler(item.id);
   };
 
@@ -72,23 +67,20 @@ export default function Header() {
     //   const response = await axios.post('/api/payment');
     //   router.push(`${response.data.data.GatewayPageURL}`)
     //   console.log("paymentResponse",response);
-      
+
     // } catch (error:any) {
     //   console.log("Payment page error", error.message);
-        
+
     //     toast.error(error.message);
     // }
     try {
       // Call the makePayment function from the context API
       await makePayment();
-
-    } catch (error:any) {
-      console.error('Payment page error', error.message);
+    } catch (error: any) {
+      console.error("Payment page error", error.message);
       toast.error(error.message);
     }
   };
-   
-   
 
   return (
     <header className="bg-[#0f0f0f]">
@@ -111,7 +103,7 @@ export default function Header() {
               />
             </div>
           </Link>
-          
+
           <div className="text-white pl-20 sm:pr-20 flex items-center cursor-pointer relative">
             <ShoppingBagIcon
               className="h-6 w-6"
@@ -121,39 +113,50 @@ export default function Header() {
             <span className="text-white ml-1">{cart.length}</span>
 
             {isPopupOpen && (
-              <div className="bg-white text-black absolute top-full left-0 p-2 rounded shadow-md mt-8 z-20 w-max ">
+              <div className="bg-white text-black absolute top-full left-0 p-2 px-10 rounded shadow-md mt-8 z-20 w-max ">
                 <div className="text-center mb-2">
                   <h1 className="text-lg font-semibold">
                     Your Cart Items Are:
                   </h1>
                 </div>
-                {cart.map((item: CartItem) => (
-                  <div key={item.id} className="mb-2">
-                    <div className="pl-2 flex justify-start items-center font-semibold">
-                      <img
-                        src={item.picture}
-                        alt=""
-                        className="h-5 w-5 rounded-full ml-2"
-                      />
-                     
-                      <span className="ml-1 text-xs">Product :{item.name}</span>
-                      <span className="ml-1 text-xs">
-                        Price: {item.price}Tk
-                      </span>
+                {cart.map((cartItem: any) => (
+                  <div
+                    key={cartItem.item._id}
+                    className="mb-4 border-b border-gray-200 w-full  h-24"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <div className="rounded-full overflow-hidden">
+                          <Image
+                            src={cartItem.item.picture}
+                            alt="Product Image"
+                            width={20}
+                            height={20}
+                            className="rounded-full"
+                          />
+                        </div>
+                        <div>
+                          <p className="font-semibold">{cartItem.item.name}</p>
 
-                      {/* <button
-                        className="ml-1 text-xs hover:text-red-600"
-                        onClick={() => handleremove(item)}
+                          <p className="text-xs">
+                            Price: ${cartItem.item.price}
+                          </p>
+                          <p className="text-xs">
+                            Quantity: {cartItem.quantity}
+                          </p>
+                          <p className="text-xs">Total Price: ${totalPrice}</p>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => handleremove(cartItem.item._id)}
+                        className="text-red-600 hover:text-red-800 focus:outline-none"
                       >
-                        Remove
-                      </button> */}
-                      <TrashIcon
-                        className="w-5 h-5 ml-2 hover:text-red-600"
-                        onClick={() => handleremove(item)}
-                      />
+                        <TrashIcon className="w-5 h-5" />
+                      </button>
                     </div>
                   </div>
                 ))}
+
                 <div className="m-6 text-xs font-semibold">
                   Total price: {totalPrice}Tk
                 </div>
@@ -271,7 +274,6 @@ export default function Header() {
           </a>
         </Popover.Group>
         <div className=" hidden lg:flex lg:flex-1 lg:justify-end">
-          
           <a
             href="/Admin/Login"
             className="text-sm font-semibold leading-6 text-white"

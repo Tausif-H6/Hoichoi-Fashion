@@ -13,10 +13,12 @@ interface Product {
 }
 import Loader from "@/components/loader/loader";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 export default function Product() {
-  const { getAllProducts, addTocartHandeler, cart } = useProductContext();
+  const router = useRouter();
+  const { getAllProducts, addTocartHandeler, cart, products, setProducts } =
+    useProductContext();
   const [loading, setLoading] = useState(true);
-  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,9 +36,13 @@ export default function Product() {
     };
 
     fetchData();
-  }, []);
+  }, [setProducts]);
   console.log("Products", products);
+  const naviageteTotheSingleProduct = (product: any) => {
+    console.log("routing product", product);
 
+    router.push(`/Products/${product._id}`);
+  };
   return (
     <div className="pt-2 pb-2 flex flex-row justify-between flex-wrap gap-5 bg-transparent dark:bg-gray-900 ">
       {loading ? (
@@ -65,9 +71,9 @@ export default function Product() {
               </div>
               <button
                 className="px-4 py-1 text-sm border border-purple-300 rounded-full text-purple-700  sm:rounded hover:bg-purple-500 hover:text-white focus:outline-none focus:ring-2"
-                onClick={() => addTocartHandeler(item)}
+                onClick={() => naviageteTotheSingleProduct(item)}
               >
-                Add to cart!
+                View Product
               </button>
             </div>
           </div>
