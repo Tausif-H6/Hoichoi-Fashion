@@ -57,8 +57,8 @@ export default function Header() {
     setIsPopupOpen(false);
     console.log("Pressed close");
   };
-  const handleremove = (item: any) => {
-    removeFromCartHandler(item.id);
+  const handleremove = (id: any) => {
+    removeFromCartHandler(id);
   };
 
   const handlePayment = async () => {
@@ -144,11 +144,10 @@ export default function Header() {
                           <p className="text-xs">
                             Quantity: {cartItem.quantity}
                           </p>
-                          <p className="text-xs">Total Price: ${totalPrice}</p>
                         </div>
                       </div>
                       <button
-                        onClick={() => handleremove(cartItem.item._id)}
+                        onClick={() => handleremove(cartItem.id)}
                         className="text-red-600 hover:text-red-800 focus:outline-none"
                       >
                         <TrashIcon className="w-5 h-5" />

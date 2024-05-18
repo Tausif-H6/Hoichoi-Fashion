@@ -50,9 +50,9 @@ export default function Product() {
         <Loader />
       ) : (
         // Display products when data fetching is complete
-        products.map((item: Product) => (
+        products.map((item: any) => (
           <div
-            key={item.id}
+            key={item._id}
             className="max-w-xs mx-auto p-9 bg-white rounded-xl shadow-md space-y-6 sm:flex sm:justify-between sm:space-y-2 sm:mx-3 sm:gap-5 sm:max-w-2xl"
           >
             <Image

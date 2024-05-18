@@ -17,6 +17,7 @@ export default function SingleProduct({ params }) {
   const [singleProduct, setSingleProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState("");
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     if (products.length > 0) {
@@ -24,6 +25,13 @@ export default function SingleProduct({ params }) {
       setSingleProduct(product);
     }
   }, [products, id]);
+
+  useEffect(() => {
+    if (singleProduct) {
+      const totalPrice = quantity * singleProduct.price;
+      setTotal(totalPrice);
+    }
+  }, [quantity, singleProduct]);
 
   if (!singleProduct) {
     return <div>Loading...</div>;
@@ -53,11 +61,11 @@ export default function SingleProduct({ params }) {
   const sizeArray = size.split(",").map((s) => s.trim());
 
   const addTocart = () => {
-    const totalPrice = quantity * price; // Calculate the total price for the current product
     const cartInformation = {
+      id: crypto.randomUUID(),
       item: singleProduct,
       quantity: quantity,
-      totalPrice: totalPrice, // Use the calculated total price
+      totalPrice: total, // Use the calculated total price
       selectedSize: selectedSize, // Include selected size
     };
     addTocartHandeler(cartInformation);
@@ -113,7 +121,7 @@ export default function SingleProduct({ params }) {
                 margin="normal"
                 variant="outlined"
               />
-
+              <p className="text-xs">Total Price: TK{total}</p>
               <Button
                 type="submit"
                 variant="contained"

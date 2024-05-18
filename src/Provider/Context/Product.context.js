@@ -86,10 +86,11 @@ export const ProductProvider = ({ children }) => {
     setcart([...cart, product]);
   };
   //Remove prodcut from the cart
-  const removeFromCartHandler = (productId) => {
-    const updatedCart = cart.filter((item) => item.id !== productId);
+  const removeFromCartHandler = (cartItemId) => {
+    const updatedCart = cart.filter((item) => item.id !== cartItemId);
     setcart(updatedCart);
   };
+
   useEffect(() => {
     const calculatedTotalPrice = cart.reduce(
       (accumulator, item) => accumulator + item.totalPrice,
