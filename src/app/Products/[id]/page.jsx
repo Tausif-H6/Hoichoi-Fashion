@@ -3,13 +3,20 @@ import { useRouter } from "next/navigation";
 import { useProductContext } from "@/Provider/Context/Product.context";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import InputLabel from "@mui/material/InputLabel";
-import FormControl from "@mui/material/FormControl";
 
+// import Select from "@mui/material/Select";
+// import MenuItem from "@mui/material/MenuItem";
+// import InputLabel from "@mui/material/InputLabel";
+// import FormControl from "@mui/material/FormControl";
+import {
+  Box,
+  Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  TextField,
+} from "@mui/material";
 export default function SingleProduct({ params }) {
   const router = useRouter();
   const { id } = params;
@@ -73,68 +80,78 @@ export default function SingleProduct({ params }) {
   };
 
   return (
-    <div className="p-8">
-      <Button
-        onClick={navigateToHomePage}
-        variant="contained"
-        sx={{ marginBottom: "2rem" }}
-      >
+    <Box
+      sx={{
+        maxWidth: 600,
+        mx: "auto",
+        p: 5,
+        bgcolor: "white",
+        borderRadius: 2,
+        boxShadow: 5,
+        mt: { xs: 2, md: 10 }, // Adding margin-top for md and above
+      }}
+    >
+      <Button onClick={navigateToHomePage} variant="contained" sx={{ mb: 2 }}>
         Go Back
       </Button>
-      <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
-        <div className="md:flex">
-          <div className="md:shrink-0">
-            <Image
-              src={picture}
-              height={200}
-              width={200}
-              alt="Product Image"
-              className="h-48 w-full object-cover md:h-full md:w-48"
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: { xs: "column", md: "row" },
+          gap: 2,
+        }}
+      >
+        <Box sx={{ flexShrink: 0 }}>
+          <Image
+            src={picture}
+            height={200}
+            width={200}
+            alt="Product Image"
+            style={{ width: "100%", height: "auto", objectFit: "cover" }}
+          />
+        </Box>
+        <Box sx={{ flex: 1 }}>
+          <h1 className="text-xl font-bold text-gray-900">{description}</h1>
+          <p className="mt-2 text-gray-600">{product_category}</p>
+          <p className="mt-2 text-gray-600">Price: ${price}</p>
+          <FormControl fullWidth margin="normal" variant="outlined">
+            <InputLabel>Size</InputLabel>
+            <Select
+              value={selectedSize}
+              onChange={handleSizeChange}
+              label="Size"
+            >
+              {sizeArray.map((sizeOption) => (
+                <MenuItem key={sizeOption} value={sizeOption}>
+                  {sizeOption}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <form onSubmit={handleSubmit} className="mt-4">
+            <TextField
+              label="Quantity"
+              type="number"
+              value={quantity}
+              onChange={handleQuantityChange}
+              InputProps={{ inputProps: { min: 1 } }}
+              fullWidth
+              margin="normal"
+              variant="outlined"
             />
-          </div>
-          <div className="p-8">
-            <h1 className="text-xl font-bold text-gray-900">{description}</h1>
-            <p className="mt-2 text-gray-600">{product_category}</p>
-            <p className="mt-2 text-gray-600">Price: ${price}</p>
-            <FormControl fullWidth margin="normal" variant="outlined">
-              <InputLabel>Size</InputLabel>
-              <Select
-                value={selectedSize}
-                onChange={handleSizeChange}
-                label="Size"
-              >
-                {sizeArray.map((sizeOption) => (
-                  <MenuItem key={sizeOption} value={sizeOption}>
-                    {sizeOption}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <form onSubmit={handleSubmit} className="mt-4">
-              <TextField
-                label="Quantity"
-                type="text"
-                value={quantity}
-                onChange={handleQuantityChange}
-                InputProps={{ inputProps: { min: 1 } }}
-                fullWidth
-                margin="normal"
-                variant="outlined"
-              />
-              <p className="text-xs">Total Price: TK{total}</p>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                fullWidth
-                sx={{ marginTop: "1rem" }}
-              >
-                Add to Cart
-              </Button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
+            <p className="text-xs mt-2">Total Price: TK{total}</p>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              fullWidth
+              sx={{ mt: 2 }}
+            >
+              Add to Cart
+            </Button>
+          </form>
+        </Box>
+      </Box>
+    </Box>
   );
 }
