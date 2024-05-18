@@ -92,11 +92,11 @@ export default function Header() {
           {/* logo part  */}
 
           <Link href="/" className="-m-1.5 p-1.5">
-            <span className="sr-only">Hoichoi Fashion</span>
+            <span className="sr-only">Hasbi</span>
             <div className="rounded-full ring ring-lime-50 overflow-hidden">
               <Image
                 className="h-12 w-12 animate-pulse "
-                src="/hoichoi.jpg"
+                src="/hasbi.jpg"
                 alt="hoichoi"
                 width="48"
                 height="48"

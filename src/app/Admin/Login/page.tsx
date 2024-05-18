@@ -26,7 +26,7 @@ export default function Page() {
       setLoading(true);
       const response = await axios.post("/api/users/login", user);
       if (response.data.success) {
-        toast.success("Login Successful Tusher Lets's Add Products", {
+        toast.success("Login Successful Nafis Ahmed Lets's Add Products", {
           duration: 2000, // Set the duration in milliseconds (e.g., 5000 for 5 seconds)
         });
 

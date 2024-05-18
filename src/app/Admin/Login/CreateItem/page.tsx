@@ -23,7 +23,7 @@ interface UserData {
 export default function Page() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const { addProductHandler , uploadFile} = useProductContext();
+  const { addProductHandler, uploadFile } = useProductContext();
   const [userData, setUserData] = React.useState<UserData | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [items, setItems] = useState<Item>({
@@ -34,17 +34,17 @@ export default function Page() {
     picture: "",
     product_category: "",
   });
-                  /*   Firebase  setup */
+  /*   Firebase  setup */
   // Function to upload file to Firebase Storage and get download URL
   // const handleChange = (
   //   e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   // ) => {
   //   const { name, value } = e.target;
-  
+
   //   if (name === "picture") {
   //     const fileInput = e.target as HTMLInputElement;
   //     const file = fileInput.files?.[0] || null;
-  
+
   //     setItems((prevItems) => ({
   //       ...prevItems,
   //       [name]: file,
@@ -56,7 +56,7 @@ export default function Page() {
   //     }));
   //   }
   // };
-  const handleImageChange = async(e: ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       // const imgurl = URL.createObjectURL(file);//Mendatory to submit a picture
@@ -67,11 +67,9 @@ export default function Page() {
     }
   };
 
-
-  
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  
+
     try {
       if (
         !items.name ||
@@ -83,30 +81,30 @@ export default function Page() {
         throw new Error("Please fill out all fields before submitting.");
       }
       setLoading(true);
-  
+
       const requestData = {
         name: items.name,
         size: items.size,
         price: items.price,
         description: items.description,
         product_category: items.product_category,
-        picture: items.picture // Assuming items.picture is a URL string
+        picture: items.picture, // Assuming items.picture is a URL string
       };
-  
+
       console.log("requestData", requestData);
-  
+
       const response = await axios.post("/api/product/create", requestData, {
         headers: {
           "Content-Type": "application/json",
         },
       });
-  
+
       // Check if the response is successful (status code in the range 200-299)
       if (response.status >= 200 && response.status < 300) {
         // Assuming your server is returning JSON, you can access the data like this
         const responseData = response.data;
         console.log("Api response", responseData);
-  
+
         // Reset the form after submission
         setItems({
           name: "",
@@ -116,12 +114,12 @@ export default function Page() {
           picture: "",
           product_category: "",
         });
-  
+
         // Reset the file input value
         if (fileInputRef.current) {
           fileInputRef.current.value = "";
         }
-  
+
         toast.success("Product Added");
       } else {
         // Handle error, if the status code is not in the success range
@@ -136,8 +134,6 @@ export default function Page() {
       setLoading(false);
     }
   };
-  
-  
 
   const handleLogout = async () => {
     try {
@@ -186,7 +182,7 @@ export default function Page() {
             {" "}
             See Profile{" "}
           </Link>
-          <h1 className="text-4xl p-4 text-center">Welcome Tusher</h1>
+          <h1 className="text-4xl p-4 text-center">Welcome Nafis</h1>
           <div className="bg-red-100 p-4 rounded-lg">
             <form
               className="grid grid-cols-1 gap-5 items-center text-black"
@@ -198,7 +194,7 @@ export default function Page() {
                 placeholder="Enter Item Name"
                 name="name"
                 value={items.name}
-                onChange={(e)=> setItems({...items,name:e.target.value})}
+                onChange={(e) => setItems({ ...items, name: e.target.value })}
               />
               <input
                 className="col-span-3 p-3 border"
@@ -206,15 +202,15 @@ export default function Page() {
                 placeholder="Enter Item Price"
                 name="price"
                 value={items.price}
-                onChange={(e)=> setItems({...items,price:e.target.value})}
+                onChange={(e) => setItems({ ...items, price: e.target.value })}
               />
               <input
                 className="col-span-3 p-3 border"
                 type="text"
-                placeholder="Enter Item Size"
+                placeholder="Enter sizes with coma eg: M , XL, S"
                 name="size"
                 value={items.size}
-                onChange={(e)=> setItems({...items,size:e.target.value})}
+                onChange={(e) => setItems({ ...items, size: e.target.value })}
               />
               <input
                 className="col-span-3 p-3 border"
@@ -222,7 +218,9 @@ export default function Page() {
                 placeholder="Enter Item Category"
                 name="product_category"
                 value={items.product_category}
-                onChange={(e)=> setItems({...items,product_category:e.target.value})}
+                onChange={(e) =>
+                  setItems({ ...items, product_category: e.target.value })
+                }
               />
               <input
                 className="col-span-3 p-3 border"
@@ -230,7 +228,9 @@ export default function Page() {
                 placeholder="Enter Product description"
                 name="description"
                 value={items.description}
-                onChange={(e)=> setItems({...items,description:e.target.value})}
+                onChange={(e) =>
+                  setItems({ ...items, description: e.target.value })
+                }
               />
               {/* ... other input fields ... */}
               <div className="grid w-full max-w-sm items-center gap-1.5">
