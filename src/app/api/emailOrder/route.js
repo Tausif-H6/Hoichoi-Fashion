@@ -18,8 +18,8 @@ export async function POST(req) {
   let config = {
     service: "gmail",
     auth: {
-      user: "tausif@coobizit.com", //Need to pass it from Env
-      pass: "sqnbrmvvvzoezlzw", //Need to pass it from Env
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
     },
   };
 
@@ -76,7 +76,7 @@ export async function POST(req) {
   `;
 
   const mailOptions = {
-    from: "tausif@coobizit.com",
+    from: process.env.EMAIL_USER,
     to: userEmail,
     subject: "Your Order Details",
     html: emailBody,

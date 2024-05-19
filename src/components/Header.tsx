@@ -9,7 +9,7 @@ import {
   TrashIcon,
 } from "@heroicons/react/20/solid";
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
-
+import CircularProgress from "@mui/material/CircularProgress";
 import {
   ChevronDownIcon,
   HomeIcon,
@@ -43,7 +43,7 @@ const callsToAction = [
 ];
 
 export default function Header() {
-  const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const { cart, removeFromCartHandler, totalPrice, setcart } =
     useProductContext();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -82,6 +82,7 @@ export default function Header() {
   // };
   const orderWithEmail = async () => {
     if (cart.length > 0) {
+      setLoading(true);
       try {
         const response = await axios.post(
           "/api/emailOrder",
@@ -93,22 +94,26 @@ export default function Header() {
           }
         );
         if (response.status === 200) {
+          setcart([]);
+          closePopup();
+          setLoading(false);
           toast.success(
             "Your Order Has Been Taken We Will Contact You Shortly!"
           );
-          setcart([]);
-          closePopup();
         } else {
           toast.error("Something went Wrong please try Again!!");
         }
         console.log("Response", response);
       } catch (error) {
         console.error("Error sending email:", error);
+      } finally {
+        setLoading(false);
       }
     } else {
       toast.error(" Add something in cart first");
     }
   };
+
   return (
     <header className="bg-[#0f0f0f]">
       <nav
@@ -137,6 +142,7 @@ export default function Header() {
               aria-hidden="true"
               onClick={openPopup}
             />
+            {loading && <CircularProgress />}
             <span className="text-white ml-1">{cart.length}</span>
 
             {isPopupOpen && (
