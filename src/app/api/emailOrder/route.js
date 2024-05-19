@@ -30,6 +30,8 @@ export async function POST(req) {
       .map(
         (item) =>
           `<tr>
+        <td>${item.item.name}</td>
+        </br>
         <td>${item.item.description} (${item.selectedSize})</td>
         <td>${item.quantity}</td>
         <td style="color: #d946ef; text-align: right;">$${item.totalPrice.toFixed(
@@ -67,10 +69,6 @@ export async function POST(req) {
         <h2 style="color: #333333;">Your order has been processed successfully.</h2>
         ${generateCartTable(cart)}
         <p style="color: #333333;">You can check the status of your order and more in your dashboard:</p>
-        <a href="https://mailgen.js/confirm?s=d9729feb74992cc3482b350163a1a010" 
-           style="display: inline-block; padding: 10px 20px; color: #ffffff; background-color: #3869D4; text-decoration: none; border-radius: 4px;">
-          Go to Dashboard
-        </a>
         <p style="color: #333333;">We thank you for your purchase.</p>
       </div>
     </body>
