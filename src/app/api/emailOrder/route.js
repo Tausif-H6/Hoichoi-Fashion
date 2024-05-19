@@ -13,7 +13,7 @@ export async function POST(req) {
   const { cart } = reqBody;
   console.log(cart);
 
-  const userEmail = "tsftousif2@gmail.com";
+  const userEmail = "n.nafis.ahmad@gmail.com";
 
   let config = {
     service: "gmail",
