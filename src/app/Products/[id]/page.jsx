@@ -3,11 +3,6 @@ import { useRouter } from "next/navigation";
 import { useProductContext } from "@/Provider/Context/Product.context";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-
-// import Select from "@mui/material/Select";
-// import MenuItem from "@mui/material/MenuItem";
-// import InputLabel from "@mui/material/InputLabel";
-// import FormControl from "@mui/material/FormControl";
 import {
   Box,
   Button,
@@ -16,7 +11,11 @@ import {
   Select,
   MenuItem,
   TextField,
+  IconButton,
 } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+
 export default function SingleProduct({ params }) {
   const router = useRouter();
   const { id } = params;
@@ -62,6 +61,14 @@ export default function SingleProduct({ params }) {
 
   const handleSizeChange = (e) => {
     setSelectedSize(e.target.value);
+  };
+
+  const incrementQuantity = () => {
+    setQuantity((prevQuantity) => prevQuantity + 1);
+  };
+
+  const decrementQuantity = () => {
+    setQuantity((prevQuantity) => Math.max(prevQuantity - 1, 1));
   };
 
   const { description, picture, price, product_category, size } = singleProduct;
@@ -129,16 +136,24 @@ export default function SingleProduct({ params }) {
             </Select>
           </FormControl>
           <form onSubmit={handleSubmit} className="mt-4">
-            <TextField
-              label="Quantity"
-              type="number"
-              value={quantity}
-              onChange={handleQuantityChange}
-              InputProps={{ inputProps: { min: 1 } }}
-              fullWidth
-              margin="normal"
-              variant="outlined"
-            />
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <IconButton onClick={decrementQuantity}>
+                <RemoveIcon />
+              </IconButton>
+              <TextField
+                label="Quantity"
+                type="number"
+                value={quantity}
+                onChange={handleQuantityChange}
+                InputProps={{ inputProps: { min: 1 } }}
+                margin="normal"
+                variant="outlined"
+                sx={{ width: 70, textAlign: "center" }}
+              />
+              <IconButton onClick={incrementQuantity}>
+                <AddIcon />
+              </IconButton>
+            </Box>
             <p className="text-xs mt-2">Total Price: TK{total}</p>
             <Button
               type="submit"

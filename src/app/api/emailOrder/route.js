@@ -32,7 +32,7 @@ export async function POST(req) {
           `<tr>
         <td>${item.item.name}</td>
         </br>
-        <td>${item.item.description} (${item.selectedSize})</td>
+        <td>(${item.selectedSize})</td>
         <td>${item.quantity}</td>
         <td style="color: #d946ef; text-align: right;">$${item.totalPrice.toFixed(
           2

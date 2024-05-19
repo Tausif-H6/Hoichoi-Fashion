@@ -44,7 +44,7 @@ const callsToAction = [
 
 export default function Header() {
   const router = useRouter();
-  const { cart, removeFromCartHandler, totalPrice, makePayment } =
+  const { cart, removeFromCartHandler, totalPrice, setcart } =
     useProductContext();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -55,7 +55,6 @@ export default function Header() {
 
   const closePopup = () => {
     setIsPopupOpen(false);
-    console.log("Pressed close");
   };
   const handleremove = (id: any) => {
     removeFromCartHandler(id);
@@ -82,19 +81,32 @@ export default function Header() {
   //   }
   // };
   const orderWithEmail = async () => {
-    try {
-      const response = await axios.post(
-        "/api/emailOrder",
-        { cart },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
+    if (cart.length > 0) {
+      try {
+        const response = await axios.post(
+          "/api/emailOrder",
+          { cart },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (response.status === 200) {
+          toast.success(
+            "Your Order Has Been Taken We Will Contact You Shortly!"
+          );
+          setcart([]);
+          closePopup();
+        } else {
+          toast.error("Something went Wrong please try Again!!");
         }
-      );
-      console.log("Response", response);
-    } catch (error) {
-      console.error("Error sending email:", error);
+        console.log("Response", response);
+      } catch (error) {
+        console.error("Error sending email:", error);
+      }
+    } else {
+      toast.error(" Add something in cart first");
     }
   };
   return (

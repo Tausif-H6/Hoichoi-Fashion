@@ -149,6 +149,7 @@ export const ProductProvider = ({ children }) => {
         uploadFile,
         products,
         setProducts,
+        setcart,
       }}
     >
       {children}
