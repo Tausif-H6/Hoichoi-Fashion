@@ -61,27 +61,42 @@ export default function Header() {
     removeFromCartHandler(id);
   };
 
-  const handlePayment = async () => {
-    // toast.error("Payment page is under construction");
-    // try {
-    //   const response = await axios.post('/api/payment');
-    //   router.push(`${response.data.data.GatewayPageURL}`)
-    //   console.log("paymentResponse",response);
+  // const handlePayment = async () => {
+  //   // toast.error("Payment page is under construction");
+  //   // try {
+  //   //   const response = await axios.post('/api/payment');
+  //   //   router.push(`${response.data.data.GatewayPageURL}`)
+  //   //   console.log("paymentResponse",response);
 
-    // } catch (error:any) {
-    //   console.log("Payment page error", error.message);
+  //   // } catch (error:any) {
+  //   //   console.log("Payment page error", error.message);
 
-    //     toast.error(error.message);
-    // }
+  //   //     toast.error(error.message);
+  //   // }
+  //   try {
+  //     // Call the makePayment function from the context API
+  //     await makePayment();
+  //   } catch (error: any) {
+  //     console.error("Payment page error", error.message);
+  //     toast.error(error.message);
+  //   }
+  // };
+  const orderWithEmail = async () => {
     try {
-      // Call the makePayment function from the context API
-      await makePayment();
-    } catch (error: any) {
-      console.error("Payment page error", error.message);
-      toast.error(error.message);
+      const response = await axios.post(
+        "/api/emailOrder",
+        { cart },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("Response", response);
+    } catch (error) {
+      console.error("Error sending email:", error);
     }
   };
-
   return (
     <header className="bg-[#0f0f0f]">
       <nav
@@ -168,7 +183,7 @@ export default function Header() {
                   </button>
                   <button
                     className="bg-green-500 text-white px-2 py-1 rounded"
-                    onClick={handlePayment}
+                    onClick={orderWithEmail}
                   >
                     Payment
                   </button>
